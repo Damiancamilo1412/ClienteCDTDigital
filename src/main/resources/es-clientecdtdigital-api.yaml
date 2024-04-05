@@ -1,0 +1,181 @@
+openapi: 3.0.1
+servers:
+  - description: Index swagger
+    #url local
+    #-url: https://localhost:8080
+    #url produccion
+    url: https://api.mibanco.com
+info:
+  description: Servicio de entidad ClienteCdtDigitales.
+  version: 0.0.1
+  title: clientecdtdigital
+  contact:
+    name: mibanco
+    url: https://www.mibanco.com/
+    email: api@mibanco.com
+  license:
+    name: GNU GPLv3
+    url: ‘https://www.gnu.org/licenses/gpl-3.0.html’
+tags:
+  - name: clientecdtdigital
+    description: Gestion de clientecdtdigital
+#----------------------------
+#Endpoints de la Entidad
+#----------------------------
+paths:
+  #----------------- Crear Usuario -------
+  /v1/es/crearClientecdtdigital: #La ruta de la api
+    post:
+      tags:
+        - Crear clientecdtdigital
+      operationId: crearClientecdtdigital
+      requestBody:
+        description: Crear clientecdtdigital
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClienteCDTDigitalType"
+      responses:
+        "200":
+          description: Clientecdtdigital creado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClienteCDTTypeResponse"
+        "400":
+          description: "Parámetros de entrada no validos."
+        "404":
+          description: "No se encuentra la novedad."
+  #----------------------------
+  #Listar Usuario
+  #----------------------------
+  /v1/es/buscarClienteCDTDigital/{id_cliente}:
+    get:
+      tags:
+        - Buscar Clientecdtdigital
+      operationId: buscarClienteCDTDigital
+      parameters:
+        - in: path
+          name: id_cliente   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description:  Id clienteCDTDigital
+      responses:
+        "200":
+          description: Clientecdtdigital encontrado.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ClienteCDTTypeResponse"
+        "400":
+          description: "Parámetros de entrada no validos."
+        "404":
+          description: "No se encuentra la novedad."
+
+  #----------------------------
+  #Elimina Registros
+  #----------------------------
+  /v1/es/eliminarClientecdt/{id_cliente}:
+    delete:
+      tags:
+        - eliminar clientecdtdigital
+      parameters:
+        - in: path
+          name: id_cliente   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The user ID
+      operationId: eliminarclientecdtdigital
+      responses:
+        "200":
+          description: clientecdtdigital eliminado.
+        "400":
+          description: "Parámetros de entrada no validos."
+        "404":
+          description: "No se encuentra la novedad."
+  #---------------------------------------------
+  #Actualiza registros
+  #---------------------------------------------
+  /v1/es/actualizaClientecdt/{id_cliente}:
+    put:
+      tags:
+        - actualiza clientecdtdigital
+      parameters:
+        - in: path
+          name: id_cliente   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The user ID
+      operationId: actualizaClientecdtdigital
+      requestBody:
+        description: actualizar clientecdtdigital.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClienteCDTDigitalType"
+      responses:
+        "200":
+          description: Clientecdtdigital actualizado exitosamente.
+        "400":
+          description: "Parámetros de entrada no validos."
+        "404":
+          description: "No se encuentra la novedad."
+#---------------------------------------------
+#Se declaran los Modelos/Schemas del servicio
+#---------------------------------------------
+components:
+  schemas:
+    ClienteCDTTypeResponse:
+      type: object
+      properties:
+        tipoTelefonoPrincipal:
+          type: string
+        telefonoPrincipal:
+          type: long
+        tipoCorreoElectronico:
+          type: string
+        GeneroEnum:
+          type: string
+          enum:
+            - FEMENINO
+            - MASCULINO
+        fechaNacimientoDia:
+          type: integer
+        fechaNacimientoMes:
+          type: integer
+        fechaNacimientoAno:
+          type: integer
+        lugarNacimientoPais:
+          type: string
+
+    #--------- TypeInput -----------
+    ClienteCDTDigitalType:
+      type: object
+      properties:
+        tipoTelefonoPrincipal:
+          type: string
+        telefonoPrincipal:
+          type: long
+        tipoCorreoElectronico:
+          type: string
+        GeneroEnum:
+          type: string
+          enum:
+            - FEMENINO
+            - MASCULINO
+        fechaNacimientoDia:
+          type: integer
+        fechaNacimientoMes:
+          type: integer
+        fechaNacimientoAno:
+          type: integer
+        lugarNacimientoPais:
+          type: string
